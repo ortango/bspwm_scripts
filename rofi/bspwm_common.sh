@@ -28,7 +28,6 @@ list() {
     _rset "markup-rows" "true"
     if [[ "$1" != "$NONODES" ]]; then
         for ((n=1; n<=$#; n++)); do
-            echo "${!n}" >&2
             if bq -N -n "${!n}.window" >/dev/null; then
                 t="$(gettitle "${!n}")"
             else

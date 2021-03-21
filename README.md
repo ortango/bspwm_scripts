@@ -2,7 +2,7 @@ bspwm scripts
 =============
 
 some bspwm related scripts that have been useful. they are of _varying quality_, but all pretty ugly. written in for either bash (often using v4+ features) or dash.
-some require tools like `jq`, `xdo`, `xtitle`, `wmutils` and `xprop` - there are others. i've included a list at the top of the scripts if one needs something extra (there is no "dependency checks", and it will stay that way).
+some require tools like `jq`, `xdo`, `xtitle`, `wmutils` and `xprop` - there are others. i've included a list at the top of the scripts if one needs something extra (there are no "dependency checks", and it will stay that way).
 
 _this is more or less an archive for personal use, so i'll just put a **blanket warning**_:
 >_none of these are meant for distribution_, you shouldn't run them before reading them and some may need configuration.
@@ -84,4 +84,6 @@ centerfloat(){
     wtp ${s[@]} $(2)
 }
 centerfloat $(bspc query -N -n last.tiled.window) $(pfw)
+#rofi modi example
+rofi -combi-modi "focus:modi-example.sh focus, pull:modi-example.sh pull" -modi combi -show combi
 ```
