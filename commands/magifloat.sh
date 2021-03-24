@@ -3,20 +3,10 @@
 #requires wmutils, jq
 
 atom_name="BSPWM_RECP"
-_atomx(){
-    declare -a cmd
-    cmd=([0]=atomx [2]="$atom_name")
-    [[ "$1" == '-d' ]] && {
-        cmd[1]=-d
-        shift
-    }
-    [[ -n "$2" ]] && cmd[2]="${cmd[2]}=${2}"
-    "${cmd[@]}" "$(printf '0x%08x' "$1")"
-}
 bnq(){ bspc query -N -n "$1" >/dev/null; }
 
 n="$(bspc query -N -n "${1:-focused}")" || exit 1
-r="$(_atomx "$n")"
+r="$(atomx "$atom_name" "$n")"
 if [[ -n "$r" ]]; then
     if bnq "$n"; then
         if bnq "$r"; then
@@ -24,7 +14,7 @@ if [[ -n "$r" ]]; then
         else
             bspc node "$n" -t tiled
         fi
-        _atomx -d "$n"
+        atomx -d "$atom_name" "$n"
     fi
 else
     if bnq "${n}.!floating"; then
@@ -39,6 +29,6 @@ else
             -v "${g[0]}" "${g[1]}" \
             -z bottom_right "${g[2]}" "${g[3]}"
         r="$(bspc query -N -n "${n}#@brother.leaf.!window")" &&
-            _atomx "$n" "$r" >/dev/null
+            atomx "${atom_name}=${r}" "$n" >/dev/null
      fi
 fi
