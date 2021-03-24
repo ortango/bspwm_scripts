@@ -2,9 +2,9 @@
 #args: [-f] follow [-s] cycle on smallest internal node [-p path] [-n node] target window
 #requires showpath.sh, commonancestor.sh
 
-bcolor(){ bspc config "${1}_border_color" $2; }
+bcolor(){ bspc config "${1}_border_color" "$2"; }
 togglebc(){
-    bcolor focused $1
+    bcolor focused "$1"
     [[ -n "$1" ]] ||
         bcolor focused "$(bcolor normal)"
     return 0
@@ -24,6 +24,7 @@ while getopts 'fsp:n:' opt; do
             pn="$OPTARG"
             path="$(showpath.sh "$pn")"
             ;;
+        *) echo "invalid arg: ${opt:-none}" >&2;;
     esac
 done; shift $((OPTIND-1))
 node=$(bq "${1:-focused}.${vwin}")

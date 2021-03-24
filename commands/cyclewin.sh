@@ -29,12 +29,13 @@ while getopts 's:c:' opt; do
             state="$(getstate focused)"
             if bspc query -N -d -n .fullscreen.local >/dev/null; then
                 bspc node "${oper}.floating.above" -f || {
-                    [[ "$state" != fullscreen ]] &&
+                    [ "$state" != fullscreen ] &&
                     bspc node "${oper}.fullscreen" -f
                 }
             else
                 bspc node "${oper}.${state}" -f
             fi
             ;;
+        *) echo "invalid arg: ${opt:-none}" >&2;;
     esac
 done

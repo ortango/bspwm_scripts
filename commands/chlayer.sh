@@ -7,7 +7,7 @@ glayer(){
     until bspc query -N -n "focused.${1}" >/dev/null; do
         shift
     done
-    printf $1
+    printf '%s' "$1"
 }
 
 op=$1

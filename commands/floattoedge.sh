@@ -7,10 +7,11 @@ while getopts 'n:rm' opt; do
         n) node="$OPTARG";;
         r) op=resize;;
         m) op=move;;
+        *) echo "invalid arg $opt" >&2;;
     esac
 done; shift "$((OPTIND-1))"
 dir=$1
-node="$(bspc query -N -n ${node:-focused}.window)" &&
+node="$(bspc query -N -n "${node:-focused}.window")" &&
     [[ -n "$dir" ]] || exit 1
 monitor="$(xdo id -N Bspwm -n root -a \
     "$(bspc query -M -n "$node" --names)")"
@@ -26,18 +27,18 @@ case "$dir" in
     right|bottom)
         i2=$(( i + 2 ))
         bw="$(bspc config border_width)"
-        (( m[$i] += ( m[$i2] - ( bw * 2 ) ) ))
-        (( s[$i] += s[$i2] ))
+        (( m[i] += ( m[i2] - ( bw * 2 ) ) ))
+        (( s[i] += s[i2] ))
         unset i2 bw
         ;;
     left|top) :;;
     *) exit 1;;
 esac
 
-(( m[$i] -= s[$i] ))
+(( m[i] -= s[i] ))
 m[$((1-i))]=0
 
 case "${op:-move}" in
-    resize) bspc node "$node" -z $dir ${m[@]::2};;
-    move) bspc node "$node" -v ${m[@]::2};;
+    resize) bspc node "$node" -z "$dir" "${m[@]::2}";;
+    move) bspc node "$node" -v "${m[@]::2}";;
 esac

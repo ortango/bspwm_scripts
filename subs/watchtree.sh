@@ -21,36 +21,36 @@ while read -ra e; do
     action="${e[0]#node_}"
     case "$action" in
         add)
-            intree ${e[4]} &&
-                res="${e[@]:3}"
+            intree "${e[4]}" &&
+                res="${e[*]:3}"
             ;;
         remove)
-            wasintree ${e[3]} &&
+            wasintree "${e[3]}" &&
                 res="${e[3]}"
             ;;
         swap)
-            { intree ${e[3]} || intree ${e[6]}; } &&
+            { intree "${e[3]}" || intree "${e[6]}"; } &&
                 res="${e[3]} ${e[6]}"
             ;;
         transfer)
-            { intree ${e[3]} || wasintree ${e[3]} || intree ${e[6]}; } &&
+            { intree "${e[3]}" || wasintree "${e[3]}" || intree "${e[6]}"; } &&
                 res="${e[3]} ${e[6]}"
             ;;
         activate|focus)
-            intree ${e[3]} &&
+            intree "${e[3]}" &&
                 res="${e[3]}"
             ;;
         stack)
-            { intree ${e[1]} || intree ${e[3]}; } &&
-                res="${e[@]:1}"
+            { intree "${e[1]}" || intree "${e[3]}"; } &&
+                res="${e[*]:1}"
             ;;
         flag|geometry|layer|presel|state)
-            intree ${e[3]} &&
-                res="${e[@]:3}"
+            intree "${e[3]}" &&
+                res="${e[*]:3}"
             ;;
     esac
     if [[ -n "$res" ]]; then
         printf '%s %s\n' "$action" "$res"
         updcct
     fi
-done < <(bspc subscribe $@)
+done < <(bspc subscribe "$@")

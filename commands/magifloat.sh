@@ -9,16 +9,16 @@ totile(){
     bspc node "$1" -n "$r" -t tiled
 }
 
-n=$(bspc query -N -n ${1:-focused}) || exit 1
+n=$(bspc query -N -n "${1:-focused}") || exit 1
 file="${tmpdir}/${n}.magicfloat"
 if [[ -f "$file" ]]; then
     bspc query -N -n "${n}.floating" &&
     totile "$n"
 else
-    g=($(bspc query -T -n "$n" | jq -r '.client | .tiledRectangle[], .floatingRectangle[]'))
+    mapfile -t g < <(bspc query -T -n "$n" | jq -r '.client | .tiledRectangle[], .floatingRectangle[]')
     [[ "${g[*]}" ]] && mkdir -p "$tmpdir" || exit 1
     for i in {0..3}; do
-        (( g[$i] -= g[$((i+4))] ))
+        (( g[i] -= g[i+4] ))
     done
     bspc query -N -n "${n}.!floating" &&
     stateargs=(-t floating)

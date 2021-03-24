@@ -15,6 +15,7 @@ _nodedesk(){ bspc query -D -n "$1"; }
 while getopts "s:" opt; do
     case "$opt" in
         s) session="$OPTARG";;
+        *) echo "invalid option: $opt" >&2;;
     esac
 done; shift $((OPTIND-1))
 
@@ -28,11 +29,11 @@ node="$1" nodefile="${sessiondir}/${1}"; : "${dest:=$2}"
 if [[ -n "$dest" ]]; then
     ndesk="$(_nodedesk "$node")"
     [[ "$dest" == "$ndesk" ]] && exit
-    [[ ! -n "$recept" ]] &&
+    [[ -z "$recept" ]] &&
         { bspc node "$node" -i 2>/dev/null &&
             bspc query -N -n "${node}#@brother.leaf.!window" ||
             printf '@%s:/' "$ndesk"; } >"$nodefile"
     bspc node "$node" -d "$dest"
-elif [[ -n "$recept" ]] && [[ ! -n "$dest" ]]; then
+elif [[ -n "$recept" ]] && [[ -z "$dest" ]]; then
     sendback "$node" "$recept"
 fi

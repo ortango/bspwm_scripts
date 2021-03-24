@@ -3,12 +3,12 @@
 #requires xdotool, xdo, lsw, xprop, xwininfo and tabbed
 
 gettabbed() { xdo id -N tabbed "$@"; }
-getclients(){ lsw $1 2>/dev/null; }
+getclients(){ lsw "$1" 2>/dev/null; }
 getcurrent(){ xwininfo -children -id "$1" | awk '$1 ~ /^0x??????/{print $1;exit}'; }
 getrootid() { lsw -r 2>/dev/null; }
 reparent()  { xdotool windowreparent "$1" "$2"; }
 mktabbed()  { tabbed -ckd -n "$session"; }
-bw()        { bspc config ${2:+-n $2} border_width $1; }
+bw()        { bspc config ${2:+-n $2} border_width "$1"; }
 iswindow()  { bspc query -N -n "${1}.window" &>/dev/null; }
 istab()     { inlist "$1" $(getclients "${tabbed[0]}"); }
 istabbed()  { inlist "$1" $(gettabbed); }
@@ -24,6 +24,7 @@ session="bspwm_tabbed"
 while getopts "s:" opt; do
     case "$opt" in
         s) session="$OPTARG";;
+        *) echo "invalid arg: ${opt:-none}" >&2;;
     esac
 done
 action="${!OPTIND}"
@@ -34,9 +35,9 @@ case "$action" in
         shift || exit 1
         ;;
     list|listsessions|current) : ;;
-    ''|*) exit 1;;
+    *) exit 1;;
 esac
-tabbed=( $(gettabbed -n "$session") )
+mapfile -t tabbed < <(gettabbed -n "$session")
 [[ "$action" =~ add|listsessions || "${#tabbed[@]}" -gt 0 ]] || exit 1
 case "$action" in
     add)

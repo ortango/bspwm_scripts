@@ -20,7 +20,7 @@ mvdesktops(){
         shift
     done
 }
-
+placeholder=tempdesktop
 mon=($(bspc query -M))
 fdesk=$(bspc query -D -d)
 if [[ "${#mon[@]}" -gt 1 ]]; then
@@ -28,18 +28,18 @@ if [[ "${#mon[@]}" -gt 1 ]]; then
         mon=(${mon[@]/"$pmon"})
     else
         pmon="${mon[0]}"
-        unset mon[0]
+        unset "mon[0]"
     fi
     di=$(( ${#dname[@]} - ${#mon[@]} ))
     [[ "$di" -gt 0 ]] || exit 1
-    pdname=( ${dname[@]::$di} )
-    dname=( ${dname[@]:$di} )
-    mvdesktops $pmon "${pdname[@]}"
-    i=0; for mi in ${!mon[@]}; do
+    pdname=( "${dname[@]::$di}" )
+    dname=( "${dname[@]:$di}" )
+    mvdesktops "$pmon" "${pdname[@]}"
+    i=0; for mi in "${!mon[@]}"; do
         mvdesktops "${mon[$mi]}" "${dname[$((i++))]}"
     done
-    reordermon $pmon "${pdname[@]}"
-    i=0; for mi in ${!mon[@]}; do
+    reordermon "$pmon" "${pdname[@]}"
+    i=0; for mi in "${!mon[@]}"; do
         bspc monitor "${mon[$mi]}" -d "${dname[$((i++))]}"
     done
 else

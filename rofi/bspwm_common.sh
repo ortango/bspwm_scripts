@@ -1,10 +1,10 @@
 #!/bin/bash
 #requires showpath.sh
 
-bq() { 2>/dev/null bspc query $@; }
+bq() { 2>/dev/null bspc query "$@"; }
 gettitle(){
     local temp
-    temp="$(xtitle $1)"
+    temp="$(xtitle "$1")"
     : "${temp:="no title - ${1}"}"
     if bq -N -n "${1}.focused" >/dev/null; then
         temp="<b>${temp}</b>"
@@ -15,11 +15,11 @@ gettitle(){
 }
 getpath(){
     local temp
-    temp="$(showpath.sh $1)"
+    temp="$(showpath.sh "$1")"
     bq -N -n "${1}.leaf" >/dev/null &&
         temp="<i>${temp}</i>"
     printf '%s: %s' \
-        "$(bspc query -D -n $1 --names)" \
+        "$(bspc query -D -n "$1" --names)" \
         "$temp"
 }
     

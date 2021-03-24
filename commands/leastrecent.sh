@@ -3,14 +3,15 @@
 #requires jq
 
 bsjq(){ bspc wm -d | jq -r ' .focusHistory | reverse | .[] | select(.nodeId != 0) | .nodeId'; }
-h=( $@ )
+h=( "$@" )
 while read -r id; do
     if [[ ${#h[@]} -gt 1 ]]; then
         for i in "${!h[@]}"; do
-            (( id == h[$i] )) && unset h[$i]
+            (( id == h[i] )) && unset "h[$i]"
         done
     else
         break
     fi
 done < <(bsjq)
-printf "${h[@]}"
+[[ "${#h[@]}" -gt 0 ]] &&
+printf '0x%08x\n' "${h[@]}"

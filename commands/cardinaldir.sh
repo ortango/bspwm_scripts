@@ -14,7 +14,7 @@ getarg(){
     if [[ "$1" == '$' ]]; then
         [[ "$2" ]] && printf '%s' "$2"
     else
-        printf '%s' $1
+        printf '%s' "$1"
     fi
 }
 
@@ -22,7 +22,7 @@ while getopts 'd:r:w:i:h:' opt; do
     case "$opt" in
         #return direction from PS_D
         d)
-            arg="$(getarg $OPTARG $ret)" ||
+            arg="$(getarg "$OPTARG" "$ret")" ||
                 fail "bad arg: missing return"
             case "$arg" in
                 [01][01])
@@ -37,7 +37,7 @@ while getopts 'd:r:w:i:h:' opt; do
             ;;
         #return PS_D from dir
         i)
-            arg="$(getarg $OPTARG $ret)" ||
+            arg="$(getarg "$OPTARG" "$ret")" ||
                 fail "bad arg: missing return"
             case "$arg" in
                 north|south|east|west)
@@ -52,10 +52,12 @@ while getopts 'd:r:w:i:h:' opt; do
             ;;
         #return PD_D from window
         w)
-            n="$(bspc query -N -n "$OPTARG")" &&
-            pn="$(bspc query -N -n ${n}#@parent)" || fail "bad window: $OPTARG"
-            [[ "$(bspc query -N -n ${pn}#@1)" == "$n" ]]; ret=$?
-            bspc query -N -n ${pn}.vertical >/dev/null; ret="${ret}${?}"
+            {
+                n="$(bspc query -N -n "$OPTARG")" &&
+                pn="$(bspc query -N -n "${n}#@parent")"
+            } || fail "bad window: $OPTARG"
+            [[ "$(bspc query -N -n "${pn}#@1")" == "$n" ]]; ret=$?
+            bspc query -N -n "${pn}.vertical" >/dev/null; ret="${ret}${?}"
             unset n pn
             ;;
         #return degree rotation from two different directions (requires two -r)
@@ -74,7 +76,7 @@ while getopts 'd:r:w:i:h:' opt; do
             ;;
         #return human readable PS_D from PS_D
         h)
-            arg="$(getarg $OPTARG $ret)" ||
+            arg="$(getarg "$OPTARG" "$ret")" ||
                 fail "bad arg: missing return"
             case "$arg" in
                 [01][01])
@@ -85,6 +87,7 @@ while getopts 'd:r:w:i:h:' opt; do
                     ;;
             esac
             ;;
+        *) fail "bad arg: ${opt:-none}";;
     esac
 done
 [[ -n "$ret" ]] && printf '%s' "$ret"

@@ -14,7 +14,7 @@ if bro="$(bspc query -N -n @brother)" && [[ "$rotate" ]]; then
 fi
 [[ -n "$dest" ]] || exit
 [[ "$dest" != "$bro" ]] &&
-    set -- ${toggledir[$1]}
+    set -- "${toggledir[$1]}"
 
 bspc node "$dest" -p "$1" &&
     bspc node -n "$dest"

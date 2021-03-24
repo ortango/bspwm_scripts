@@ -12,11 +12,11 @@ done
 dir="${1:-$defaultdir}"
 case "$dir" in
     west|east|north|south)
-        node=$(bspc query -N -n ${2:-focused})
+        node="$(bspc query -N -n "${2:-focused}")"
         ;;
     *)
-        node=$(bspc query -N -n ${dir:-focused})
-        dir=$defaultdir
+        node="$(bspc query -N -n "${dir:-focused}")"
+        dir="$defaultdir"
         ;;
 esac
 [[ -n "$node" ]] || exit 1

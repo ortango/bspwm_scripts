@@ -7,15 +7,14 @@ wintypes='.window.!hidden.!floating'
 
 getclosest(){
     sort -${1}nk1 |
-    awk 'NR == 1{xmin=$1; ymin=$2; wid=$3} NR > 1 && \
-    $1 == xmin && $2 < ymin {ymin=$2; wid=$3} END{print wid}'
+    awk 'NR == 1{xmin=$1; ymin=$2; wid=$3} NR > 1 && $1 == xmin && $2 < ymin {ymin=$2; wid=$3} END{print wid}'
 }
 getinfo(){
     local win offset
     declare -a attr
-    offset="$(wattr ${2: -1:1} $(bspc query -N -n))"
+    offset="$(wattr "${2: -1:1}" "$(bspc query -N -n)")"
     for win in $(bspc query -N -d "$1" -n "$wintypes"); do
-        attr=( $(wattr $2 $win) )
+        attr=( $(wattr "$2" "$win") )
         (( attr[2] -= offset ))
         [ "$3" ] && (( attr[0] += attr[1] ))
         printf '%s %s %s\n' "${attr[0]}" "${attr[2]/#-/}" "$win"
@@ -32,4 +31,4 @@ case $dir in
     east|south) r='r';;
 esac
 
-getinfo $desk $info $r | getclosest $r
+getinfo "$desk" "$info" "$r" | getclosest "$r"

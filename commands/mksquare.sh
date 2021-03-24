@@ -16,14 +16,14 @@ case $mode in
         ;;
     cmd)
         target="$(bspc query -N "$node" -n @parent)" || fail "no parent to adjust"
-        [[ "$(bspc query -N $target -n @1)" == "$node" ]]
+        [[ "$(bspc query -N "$target" -n @1)" == "$node" ]]
         ip=$?
         st=0
-        cmd=(bspc node $target)
+        cmd=(bspc node "$target")
         ;;
 esac
 
-g=($(bspc query -T -n "$target" | jq -r '.rectangle.height, .rectangle.width, .splitType'))
+mapfile -t g < <(bspc query -T -n "$target" | jq -r '.rectangle.height, .rectangle.width, .splitType')
 (( g[0] > g[1] )) && adj=2 t=${g[0]} g[0]=${g[1]} g[1]=$t
 ratio="$(bc <<<"scale=6;r=${g[0]} / ${g[1]};if(r >= $cutoff){r=1};if(r != 1 && $ip == 1){r=1 - r};r")"
 [[ "$ratio" != 1 ]] || fail "cannot create a square here"
@@ -34,8 +34,8 @@ case $mode in
         ;;
     cmd)
         [[ "${g[2]}" == "horizontal" ]] && st=2
-        cmd+=(-r $ratio)
-        ((adj != st)) && cmd+=(-R ${rot[$st]})
+        cmd+=(-r "$ratio")
+        ((adj != st)) && cmd+=(-R "${rot[$st]}")
         ;;
 esac
 "${cmd[@]}"

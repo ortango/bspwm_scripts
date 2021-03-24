@@ -2,7 +2,7 @@
 #args: (h|v) [internalnode]
 #requires xargs
 
-p="$(bspc query -N -n ${2:-focused}.!leaf)" ||
+p="$(bspc query -N -n "${2:-focused}.!leaf")" ||
     p="$(bspc query -N -n @parent)" ||
     exit
 case "$1" in

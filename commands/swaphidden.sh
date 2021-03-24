@@ -1,7 +1,7 @@
 #!/bin/dash
 #args: a hidden node
 
-bcolor(){ bspc config "${1}_border_color" $2; }
+bcolor(){ bspc config "${1}_border_color" "$2"; }
 target="$(bspc query -N -n "${1:-any}.window.hidden")" &&
     node="$(bspc query -N -n "${2:-focused}.!hidden")" ||
     exit 1

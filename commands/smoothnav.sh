@@ -4,10 +4,10 @@
 
 getoccd(){
     local fdid did
-    fdid=$(bspc query -D -d ${1}.occupied) || return 1
+    fdid=$(bspc query -D -d "${1}.occupied") || return 1
     did=$fdid
     until bspc query -N -d "$did" -n .!hidden >/dev/null; do
-        did=$(bspc query -D "$did" -d ${1}.occupied)
+        did=$(bspc query -D "$did" -d "${1}.occupied")
         [[ "$did" != "$fdid" ]] || return 1
     done
     printf '0x%08X' "$did"

@@ -3,7 +3,7 @@
 #requires picom/compton in dbus mode
 
 f(){
-    ${compton_dbus}.win_set \
+    "${compton_dbus}.win_set" \
         "uint32:${1}" \
         "string:${2}" \
         "uint32:${3}" >/dev/null 2>&1 &
@@ -15,7 +15,7 @@ dpy="$(echo -n "$DISPLAY" | tr -c '[:alnum:]' _)"
 interface="com.github.chjj.compton"
 service="${interface}.${dpy}"
 compton_dbus="dbus-send --print-reply --dest=${service} / ${interface}"
-type_win='uint32' type_enum='uint32'
+#type_win='uint32' type_enum='uint32'
 ##---- DBUS ----
 
 wait-bspwm.sh &&
@@ -29,7 +29,7 @@ dbus-send --session \
     grep -q "$service" ||
 exit 1
 
-while read _ _ _ n; do
+while read -r _ _ _ n; do
     if bspc query -N -n "${n}.!leaf" >/dev/null; then
         list="$(bspc query -N "$n" -n .window.descendant_of | sort)"
         if [ "$lastlist" != "$list" ]; then
@@ -57,4 +57,4 @@ while read _ _ _ n; do
         #that would be a bad idea, because it is useful to know who has actual input.
         lastlist="$n"
     fi
-done <$(bspc subscribe -f node_focus)
+done <"$(bspc subscribe -f node_focus)"

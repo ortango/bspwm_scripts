@@ -81,7 +81,7 @@ node="$(leastrecent.sh $(bspc query -N -d -n .hidden.window.local))" &&
 centerfloat(){
     s=($(wattr xywh $1));
     s=($(boundscoor.sh $(centercoor.sh ${s[@]})))
-    wtp ${s[@]} $(2)
+    wtp ${s[@]} $2
 }
 centerfloat $(bspc query -N -n last.tiled.window) $(pfw)
 #rofi modi example

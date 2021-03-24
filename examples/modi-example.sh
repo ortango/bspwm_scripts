@@ -2,7 +2,7 @@
 #requires rofi/bspwm_common.sh
 #configure ROFI_SCRIPTS for location to source
 
-. ${ROFI_SCRIPTS}/bspwm_common.sh
+. "${ROFI_SCRIPTS}/bspwm_common.sh"
 
 ### these functions are the settings
 _getnodes() {
@@ -25,7 +25,7 @@ _act() {
 
 # main modi functionality; list/act
 action="$1"; shift
-if [[ -z "$@" ]]; then
+if [[ -z "$*" ]]; then
     list $(_getnodes "$action" || printf '%s' 'XXNONEXX')
 else
     _act "$action" "$ROFI_INFO"

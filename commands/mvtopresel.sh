@@ -1,9 +1,9 @@
 #!/bin/dash
 
 getn(){
-    bspc query -N -n ".${@}" >/dev/null &&
+    bspc query -N -n ".${*}" >/dev/null &&
     for t in focused last any; do
-        n=$(bspc query -N -n "${t}.${@}") && {
+        n=$(bspc query -N -n "${t}.${*}") && {
             printf '0x%08X' "$n"; return
         }
     done

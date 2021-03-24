@@ -11,7 +11,7 @@ case $1 in
             [ "$current_layer" = "$l" ] &&
                 new_layer=normal
             ;;
-    ~)      new_layer="last_layer";;
+    ~)      new_layer="$last_layer";;
     =|'')   new_layer="normal";;
     *)      exit 1;;
 esac

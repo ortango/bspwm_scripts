@@ -9,7 +9,7 @@ declare -A modes=(
     [VGA-1]='--output VGA-1 --mode 1280x1024 --rotate left --primary --output LVDS-1 --off'
 )
 fail(){
-    echo $* >&2
+    echo "$*" >&2
     exit 1
 }
 
@@ -23,8 +23,8 @@ if [[ -z "$mode" ]]; then
     fi
 fi
 if [[ -n "${modes[$mode]}" ]]; then
-    xrandr ${modes[$mode]} ||
+    xrandr "${modes[$mode]}" ||
         fail "xrandr failed, aborting."
 else
-    fail "invalid mode entered. (valid modes include ${!modes[@]})"
+    fail "invalid mode entered. (valid modes include ${!modes[*]})"
 fi
