@@ -25,18 +25,15 @@ case "$dir" in
         i=${diraxis[$dir]}
         ;;&
     right|bottom)
-        i2=$(( i + 2 ))
         bw="$(bspc config border_width)"
-        (( m[i] += ( m[i2] - ( bw * 2 ) ) ))
-        (( s[i] += s[i2] ))
-        unset i2 bw
+        (( m[i] += ( m[i+2] - ( bw * 2 ) ) ))
+        (( s[i] += s[i+2] ))
         ;;
     left|top) :;;
     *) exit 1;;
 esac
 
-(( m[i] -= s[i] ))
-m[$((1-i))]=0
+(( m[i] -= s[i], m[1-i] = 0 ))
 
 case "${op:-move}" in
     resize) bspc node "$node" -z "$dir" "${m[@]::2}";;

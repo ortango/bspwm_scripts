@@ -1,5 +1,5 @@
 #!/bin/bash
-#print tree at [arg]
+#args: [ 'path/' | 'NODE_SEL#@' ]
 #requires xtitle
 
 bn(){ bspc query -N -n "$@"; }

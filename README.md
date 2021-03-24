@@ -12,16 +12,17 @@ i might add some kind of documentation beyond this list, but not at this point.
 node commands
 -------------
 
-* btabbed       - manage windows in `tabbed`.
-* bubblemv      - move a node in a bubble-like way.
+* btabbed       - manage windows in `tabbed`
+* bubblemv      - move a node in a bubble-like way
 * copynode      - move windows between desktops using receptacles to hold placement
 * chlayer       - change a node's layer
 * cyclewin      - next/previous window in same state, or move to a different state
 * floattoedge   - move to resize a floating window to monitor edge: left, right, top, bottom
 * magifloat     - toggle floating in same size and place keeping a receptacle in place
-* mvtopresel    - move a {,marked} node to preselection, or mark it.
+* mvtopresel    - move a {,marked} node to preselection, or mark it
 * promote       - move a node up to the root
 * smoothnav     - navigate windows in a intuitive way
+* splitprimary  - split the primary monitor and create a virtual monitor in the empty space
 * swaphidden    - swap a hidden window for a visible window
 * uniform       - arrange all descendants in the same orientation and balance them
 
