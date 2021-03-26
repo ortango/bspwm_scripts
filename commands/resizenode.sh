@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -A flipsign hv
+declare -A flipsign hv pol
 flipsign=([+]='-' [-]='+')
 hv=([left]=h [right]=h [top]=v [bottom]=v)
 pol=([left]='-' [top]='-' [right]='+' [bottom]='+')

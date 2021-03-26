@@ -10,8 +10,8 @@
     BSPWM_DESKTOPS=(I II III IV V VI VII VIII IX X)
 
 reordermon(){
-    bspc monitor "$1" -o "${@:2}" &&
-        bspc monitor "$1" -d "${@:2}"
+    bspc monitor "$1" -o "${@:2}" 2>/dev/null
+    bspc monitor "$1" -d "${@:2}"
 }
 mvdesktops(){
     local dm tm
@@ -37,7 +37,7 @@ if [[ "${#mon[@]}" -gt 1 ]]; then
     di=$(( ${#BSPWM_DESKTOPS[@]} - ${#mon[@]} ))
     [[ "$di" -gt 0 ]] || exit 1
     pdname=( "${BSPWM_DESKTOPS[@]::$di}" )
-    dname=( "${dname[@]:$di}" )
+    dname=( "${BSPWM_DESKTOPS[@]:$di}" )
     mvdesktops "$pmon" "${pdname[@]}"
     i=0; for mi in "${!mon[@]}"; do
         mvdesktops "${mon[$mi]}" "${dname[$((i++))]}"
