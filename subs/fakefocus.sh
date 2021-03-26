@@ -18,7 +18,7 @@ compton_dbus="dbus-send --print-reply --dest=${service} / ${interface}"
 #type_win='uint32' type_enum='uint32'
 ##---- DBUS ----
 
-wait-bspwm.sh &&
+waitonbspwm.sh &&
 { pgrep -x compton || pgrep -x picom; } >/dev/null 2>&1 &&
 dbus-send --session \
     --dest=org.freedesktop.DBus \

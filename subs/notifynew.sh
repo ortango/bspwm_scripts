@@ -12,7 +12,7 @@ notifywindow(){
     [ "$(_dunstify "$1" "$2")" = 'focus' ] &&
         bspc node "$1" -f
 }
-wait-bspwm.sh || exit 1
+waitonbspwm.sh || exit 1
 while read -r _ _ d _ n; do
     if ! bspc query -D -d .active | grep -q "$d"; then
         notifywindow "$n" "$d"&

@@ -59,7 +59,7 @@ subscribers
 
 * fakefocus     - set descendants as focused in compton/picom
 * notifynew     - send notification when a window spawns outside of active view
-* waitonwm      - use subscribe to wait for bspwm to initialize
+* waitonbspwm   - use subscribe to wait for bspwm to initialize
 * watchtree     - watch a `@path/` for node events
 
 rofi modi helper
