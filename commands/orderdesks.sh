@@ -47,6 +47,6 @@ if [[ "${#mon[@]}" -gt 1 ]]; then
         reordermon "${mon[$mi]}" "${dname[$((i++))]}"
     done
 else
-    reordermon "${mon[0]}" "${dname[@]}"
+    reordermon "${mon[0]}" "${BSPWM_DESKTOPS[@]}"
 fi
 bspc desktop "$fdesk" -f
