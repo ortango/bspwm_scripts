@@ -3,7 +3,11 @@
 #primary or first monitor gets all desktop except one per additional monitor.
 #the additional monitors take desktops from the back of the list
 
-dname=(WORK WEB MEDIA STEAM AUX)
+[[ -f "${XDG_CONFIG_HOME}/bspwm/desktops.conf" ]] &&
+. "${XDG_CONFIG_HOME}/bspwm/desktops.conf"
+
+[[ "${#BSPWM_DESKTOPS[@]}" != 0 ]] ||
+    BSPWM_DESKTOPS=(I II III IV V VI VII VIII IX X)
 
 reordermon(){
     bspc monitor "$1" -o "${@:2}" &&
@@ -30,9 +34,9 @@ if [[ "${#mon[@]}" -gt 1 ]]; then
         pmon="${mon[0]}"
         unset "mon[0]"
     fi
-    di=$(( ${#dname[@]} - ${#mon[@]} ))
+    di=$(( ${#BSPWM_DESKTOPS[@]} - ${#mon[@]} ))
     [[ "$di" -gt 0 ]] || exit 1
-    pdname=( "${dname[@]::$di}" )
+    pdname=( "${BSPWM_DESKTOPS[@]::$di}" )
     dname=( "${dname[@]:$di}" )
     mvdesktops "$pmon" "${pdname[@]}"
     i=0; for mi in "${!mon[@]}"; do
@@ -40,7 +44,7 @@ if [[ "${#mon[@]}" -gt 1 ]]; then
     done
     reordermon "$pmon" "${pdname[@]}"
     i=0; for mi in "${!mon[@]}"; do
-        bspc monitor "${mon[$mi]}" -d "${dname[$((i++))]}"
+        reordermon "${mon[$mi]}" "${dname[$((i++))]}"
     done
 else
     reordermon "${mon[0]}" "${dname[@]}"

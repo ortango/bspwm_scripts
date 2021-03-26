@@ -1,5 +1,5 @@
 #!/bin/bash
-#args [-s | -d] action=split|reset|toggle
+#args [-s | -r] action=activate|reset|toggle
 #requires mmutils, orderdesks.sh
 
 printgeom(){ printf '%dx%d+%d+%d' "$@"; }
@@ -9,10 +9,10 @@ bm(){ bspc query -M -m "$@" 2>/dev/null; }
 
 declare -A splitind=([vertical]=0 [horizontal]=1)
 
-while getopts 's:d:' opt; do
+while getopts 's:r:' opt; do
     case "$opt" in
         s) splittype="$OPTARG";;
-        d) splitratio="$OPTARG";;
+        r) splitratio="$OPTARG";;
         *) echo "invalid arg: ${opt:-none}";;
     esac
 done
@@ -45,6 +45,10 @@ case "$action" in
         ;;
     reset)
         if [[ -n "$vactive" ]]; then
+            bspc monitor "$vactive" -a placeholder
+            for tempid in $(bspc query -D -m "$vactive"); do
+                bspc desktop "$tempid" -m "$mid" &>/dev/null
+            done
             bspc monitor "$vactive" -r
             bspc monitor "$mid" -g "$(printgeom "${mrect[@]}")"
             orderdesks.sh

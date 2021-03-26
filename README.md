@@ -20,9 +20,10 @@ node commands
 * floattoedge   - move to resize a floating window to monitor edge: left, right, top, bottom
 * magifloat     - toggle floating in same size and place keeping a receptacle in place
 * mvtopresel    - move a {,marked} node to preselection, or mark it
+* naturalpresel - make or change a preselection in an intuitive way
 * promote       - move a node up to the root
+* resizenode    - resize a node
 * smoothnav     - navigate windows in a intuitive way
-* splitprimary  - split the primary monitor and create a virtual monitor in the empty space
 * swaphidden    - swap a hidden window for a visible window
 * uniform       - arrange all descendants in the same orientation and balance them
 
@@ -51,6 +52,7 @@ desktop & monitor commands
 
 * monconf       - run xrandr with predefined arguments
 * orderdesks    - move and reorder desktops according to a list
+* splitprimary  - split the primary monitor and create a virtual monitor in the empty space
 
 subscribers
 -----------
