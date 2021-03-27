@@ -4,9 +4,9 @@ f=$(bspc query -N -n)
 a=$(commancestor.sh "$f" "$1") || exit
 sign=$2
 case "$sign" in
-	+) flip='-';;
-	-) flip='+';;
-	*) exit 1;;
+    +) flip='-';;
+    -) flip='+';;
+    *) exit 1;;
 esac
 [ "$(bspc query -N -n "${a}#@2#${f}.descendant_of")" = "$f" ] &&
     sign="$flip"
