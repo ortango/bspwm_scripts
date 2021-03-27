@@ -12,6 +12,7 @@ i might add some kind of documentation beyond this list, but not at this point.
 node commands
 -------------
 
+* adjustratio   - adjust the split ratio between focused and an adjacent node
 * btabbed       - manage windows in `tabbed`
 * bubblemv      - move a node in a bubble-like way
 * copynode      - move windows between desktops using receptacles to hold placement

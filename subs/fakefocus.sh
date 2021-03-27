@@ -3,7 +3,7 @@
 #requires picom/compton in dbus mode
 
 f(){
-    "${compton_dbus}.win_set" \
+    ${compton_dbus}.win_set \
         "uint32:${1}" \
         "string:${2}" \
         "uint32:${3}" >/dev/null 2>&1 &

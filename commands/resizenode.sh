@@ -1,25 +1,11 @@
-#!/bin/bash
+#!/bin/dash
 
-declare -A flipsign hv pol
-flipsign=([+]='-' [-]='+')
-hv=([left]=h [right]=h [top]=v [bottom]=v)
-pol=([left]='-' [top]='-' [right]='+' [bottom]='+')
-
-inc=8
-while getopts 'n:i:s' opt; do
-    case "$opt" in
-        n) node="$OPTARGS";;
-        i) inc="$OPTARG";;
-        s) shink=true;;
-    esac
-done
-dir="${!OPTIND}"
-shift "$OPTIND"
-sign="${pol[$dir]}"
-[[ "$shink" ]] &&
-    sign="${flipsign[$sign]}"
-case "${hv[$dir]}" in
-    h) arg=("$dir" "${sign}${inc}" 0);;
-    v) arg=("$dir" 0 "${sign}${inc}");;
+inc="${3:-16}"
+case "$2" in
+	left)   args="-${inc} 0";;
+	right)  args="+${inc} 0";;
+	top)    args="0 -${inc}";;
+	bottom) args="0 +${inc}";;
+	*)      exit 1;;
 esac
-bspc node "${node:-focused}" -z "${arg[@]}"
+bspc node -z "$1" $args
