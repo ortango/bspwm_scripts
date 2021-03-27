@@ -23,7 +23,6 @@ node commands
 * mvtopresel    - move a {,marked} node to preselection, or mark it
 * naturalpresel - make or change a preselection in an intuitive way
 * promote       - move a node up to the root
-* resizenode    - resize a node
 * smoothnav     - navigate windows in a intuitive way
 * swaphidden    - swap a hidden window for a visible window
 * uniform       - arrange all descendants in the same orientation and balance them
