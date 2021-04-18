@@ -78,7 +78,7 @@ some examples
 
 ``` bash
 #example to cycle through hidden windows, swapping them out for the current window
-node="$(leastrecent.sh $(bspc query -N -d -n .hidden.window.local))" &&
+node="$(bspc query -N -d -n .hidden.window.local | leastrecent.sh)" &&
     swaphidden.sh $node
 #example to center a focused floating window on a window without going off monitor
 centerfloat(){

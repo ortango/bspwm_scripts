@@ -2,16 +2,15 @@
 #args: list of nodes
 #requires jq
 
-bsjq(){ bspc wm -d | jq -r ' .focusHistory | reverse | .[] | select(.nodeId != 0) | .nodeId'; }
-h=( "$@" )
-while read -r id; do
-    if [[ ${#h[@]} -gt 1 ]]; then
-        for i in "${!h[@]}"; do
-            (( id == h[i] )) && unset "h[$i]"
-        done
-    else
-        break
-    fi
-done < <(bsjq)
-[[ "${#h[@]}" -gt 0 ]] &&
-printf '0x%08x\n' "${h[@]}"
+_jq(){
+    jq -r --slurpfile sel <(printf '%d\n' "${nodes[@]}") '
+        .focusHistory|reverse|to_entries|unique_by(.value.nodeId)|sort_by(.key)[].value|
+        select(.nodeId as $nodes | any( $sel[]; . == $nodes ) ).nodeId' < <(bspc wm -d)
+}
+
+if [[ ! -t 0 ]]; then
+    mapfile -t nodes
+    [[ "${nodes[@]}" ]] &&
+    nodes=( $(_jq) ) &&
+    printf '0x%08x\n' "${nodes[@]}"
+fi
