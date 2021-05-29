@@ -14,7 +14,7 @@ notifywindow(){
 }
 waitonbspwm.sh || exit 1
 while read -r _ _ d _ n; do
-    if ! bspc query -D -d .active | grep -q "$d"; then
+    if bspc query -D -d "${d}.!active" >/dev/null; then
         notifywindow "$n" "$d"&
     fi
 done <"$(bspc subscribe -f node_add)"

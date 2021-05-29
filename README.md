@@ -42,6 +42,7 @@ query commands
 * commancestor  - return the first common ancestor of two nodes
 * edgewin       - get closest window in direction on an inactive desktop
 * leastrecent   - return least recently focused node from a list
+* occludingw    - return a list of windows occluding a target window
 * showpath      - print the `@path/` of a node
   * showpath-jq - same, but using jq
 * showtree      - print the tree rooted at a node
